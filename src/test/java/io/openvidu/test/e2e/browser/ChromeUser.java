@@ -61,7 +61,7 @@ public class ChromeUser extends BrowserUser {
 		        caps.setCapability(ChromeOptions.CAPABILITY, options);				
 				
 		        this.driver = new RemoteWebDriver(new URL(eusApiURL),  caps);
-				
+		        				
 			} catch (MalformedURLException e) {
 				throw new RuntimeException("Exception creaing eusApiURL",e);
 			}
