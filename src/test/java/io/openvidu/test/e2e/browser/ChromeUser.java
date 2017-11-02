@@ -18,9 +18,13 @@
 package io.openvidu.test.e2e.browser;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.core.io.ClassPathResource;
 
 public class ChromeUser extends BrowserUser {
@@ -43,7 +47,26 @@ public class ChromeUser extends BrowserUser {
 			e.printStackTrace();
 		}
 
-		this.driver = new ChromeDriver(options);
+		
+		String eusApiURL = System.getenv("ET_EUS_API");
+		
+		if(eusApiURL == null) { 
+			this.driver = new ChromeDriver(options);	
+		} else {
+			
+			try {				
+				DesiredCapabilities caps = new DesiredCapabilities();
+		        caps.setBrowserName("chrome");
+		        caps.setVersion("61.0");
+		        caps.setCapability(ChromeOptions.CAPABILITY, options);				
+				
+		        this.driver = new RemoteWebDriver(new URL(eusApiURL),  caps);
+				
+			} catch (MalformedURLException e) {
+				throw new RuntimeException("Exception creaing eusApiURL",e);
+			}
+		}		
+		
 		this.driver.manage().timeouts().setScriptTimeout(this.timeOfWaitInSeconds, TimeUnit.SECONDS);
 		
 		this.configureDriver();

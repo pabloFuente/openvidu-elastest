@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -65,16 +66,19 @@ public class OpenViduTestAppE2eTest {
 	static String OPENVIDU_URL = "https://localhost:8443/";
 	static String APP_URL = "https://localhost:8443/";
 	static Exception ex = null;
-	private final Object lock = new Object();
-
+	
 	final static Logger log = getLogger(lookup().lookupClass());
 
 	BrowserUser user;
 
 	@BeforeAll()
 	static void setupAll() {
-		ChromeDriverManager.getInstance().setup();
-		FirefoxDriverManager.getInstance().setup();
+		
+		if(System.getenv("ET_EUS_API") == null) {
+			//Outside ElasTest
+			ChromeDriverManager.getInstance().setup();
+			FirefoxDriverManager.getInstance().setup();	
+		}
 
 		String appUrl = getProperty("app.url");
 		if (appUrl != null) {
@@ -195,6 +199,7 @@ public class OpenViduTestAppE2eTest {
 
 	@Test
 	@DisplayName("One2One [Audio]")
+	@Disabled
 	void oneToOneAudioSession() throws Exception {
 		
 		setupBrowser("chrome");
@@ -240,6 +245,7 @@ public class OpenViduTestAppE2eTest {
 
 	@Test
 	@DisplayName("One2One [Video]")
+	@Disabled
 	void oneToOneVideoSession() throws Exception {
 		
 		setupBrowser("chrome");
@@ -285,6 +291,7 @@ public class OpenViduTestAppE2eTest {
 
 	@Test
 	@DisplayName("One2Many [Video + Audio]")
+	@Disabled
 	void oneToManyVideoAudioSession() throws Exception {
 		
 		setupBrowser("chrome");
@@ -311,6 +318,7 @@ public class OpenViduTestAppE2eTest {
 
 	@Test
 	@DisplayName("Unique user remote subscription [Video + Audio]")
+	@Disabled
 	void oneRemoteSubscription() throws Exception {
 		
 		setupBrowser("chrome");
@@ -342,6 +350,7 @@ public class OpenViduTestAppE2eTest {
 
 	@Test
 	@DisplayName("Unique user remote subscription [ScreenShare + Audio]")
+	@Disabled
 	void oneRemoteSubscriptionScreen() throws Exception {
 		
 		setupBrowser("chrome");
@@ -374,6 +383,7 @@ public class OpenViduTestAppE2eTest {
 
 	@Test
 	@DisplayName("Many2Many [Video + Audio]")
+	@Disabled
 	void manyToManyVideoAudioSession() throws Exception {
 		
 		setupBrowser("chrome");
@@ -423,6 +433,7 @@ public class OpenViduTestAppE2eTest {
 
 	@Test
 	@DisplayName("Secure Test")
+	@Disabled
 	void secureTest() throws Exception {
 		
 		setupBrowser("chrome");
