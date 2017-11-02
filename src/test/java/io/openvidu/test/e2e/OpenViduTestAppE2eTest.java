@@ -82,6 +82,8 @@ public class OpenViduTestAppE2eTest {
 
 		String appIp = System.getenv("APP_IP");
 		if (appIp != null) {
+			//Be sure that protocol is http
+			appIp = appIp.replace("http://", "https://");
 			APP_URL = appIp;
 			OPENVIDU_URL = appIp;
 		}
